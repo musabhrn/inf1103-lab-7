@@ -6,7 +6,7 @@ class CanBeShipped(ABC):
     def calculate_shipping_cost(self) -> float:
         pass
 
-class Product:
+class Product(ABC):
     def __init__(self, product_id, name, price, stock):
         self._product_id = product_id
         self._name = name
@@ -34,7 +34,7 @@ class Product:
 
     def display_information(self) -> None:
         """Displays formatted information for the product."""
-        print(f"ID: {self._product_id} | Name: {self._name} | Price: ${self._price:.2f} | Stock: {self._stock}")
+        print(f"ID: {self._product_id} | Name: {self._name} | Price: ${self._price:.2f} | Stock: {self._stock}", end="")
 
     @abstractmethod
     def get_fulfilment_info(self) -> str:
