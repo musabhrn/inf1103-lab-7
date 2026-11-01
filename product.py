@@ -49,3 +49,29 @@ class Product:
             "price": self._price,
             "stock": self._stock
         }
+
+class PhysicalProduct(Product, CanBeShipped):
+    """A physical product that has weight and can be shipped."""
+    def __init__(self, product_id, name, price, stock, weight):
+        super().__init__(product_id, name, price, stock)
+        self._weight = float(weight)
+
+    @property
+    def weight(self):
+        return self._weight
+
+    def get_fulfilment_info(self) -> str:
+        return "Requires physical shipping."
+
+    def calculate_shipping_cost(self) -> float:
+        return 5.00 + (2.00 * self._weight)
+
+    def display_information(self) -> None:
+        super().display_information()
+        print(f" | Weight: {self._weight}kg | Shipping Cost: ${self.calculate_shipping_cost():.2f} | Fulfilment: {self.get_fulfilment_info()}")
+
+    def to_dict(self) -> dict:
+        base = super().to_dict()
+        base["type"] = "physical"
+        base["weight"] = self._weight
+        return base
