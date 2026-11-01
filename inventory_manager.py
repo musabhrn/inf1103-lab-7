@@ -27,25 +27,36 @@ class InventoryManager:
             product = PhysicalProduct(p_id, name, price, stock, 0.0)
 
         self._products.append(product)
-        print("Product added successfully!")
+        print("Product added successfully!\n")
 
-    def update_stock(self, product_id: str, quantity: int) -> bool:
+    def update_stock(self) -> None:
+        product_id = input("Enter Product ID to update: ").strip()
         product = self.search_product(product_id)
         if product:
-            product.update_stock(quantity)
-            return True
-        return False
+            try:
+                quantity = int(input("Enter new stock quantity: "))
+                product.update_stock(quantity)
+                print("Stock updated successfully!\n")
+            except ValueError:
+                print("Invalid quantity. Please enter a valid integer.\n")
+        else:
+            print("Product not found.\n")
 
-    def search_product(self, product_id: str) -> Product | None:
+    def search_product(self) -> None:
+        product_id = input("Enter Product ID to search: ").strip()
         for product in self._products:
             if product.product_id.lower() == product_id.lower():
+                product.display_information()
+                print()
                 return product
+        print("Product not found.\n")
         return None
 
     def save(self) -> None:
         data = [p.to_dict() for p in self._products]
         with open(self._filename, "w") as f:
             json.dump(data, f, indent=4)
+        print(f"Inventory saved successfully to {self._filename}.\n")
 
     def load(self) -> None:
         if os.path.exists(self._filename):
