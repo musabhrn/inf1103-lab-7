@@ -9,8 +9,25 @@ class InventoryManager:
         self._products = []
         self.load()
 
-    def add_product(self, product: Product) -> None:
+    def add_product(self) -> None:
+        prod_type = input("Enter product type (physical/digital): ").strip().lower()
+        p_id = input("Enter Product ID: ")
+        name = input("Enter Name: ")
+        price = float(input("Enter Price: "))
+        stock = int(input("Enter Stock: "))
+
+        if prod_type == "physical":
+            weight = float(input("Enter Weight (kg): "))
+            product = PhysicalProduct(p_id, name, price, stock, weight)
+        elif prod_type == "digital":
+            download_size = float(input("Enter Download Size (MB): "))
+            product = DigitalProduct(p_id, name, price, stock, download_size)
+        else:
+            print("Invalid type. Defaulting to physical product.")
+            product = PhysicalProduct(p_id, name, price, stock, 0.0)
+
         self._products.append(product)
+        print("Product added successfully!")
 
     def update_stock(self, product_id: str, quantity: int) -> bool:
         product = self.search_product(product_id)
