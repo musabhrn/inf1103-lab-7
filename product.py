@@ -1,3 +1,5 @@
+from abc import ABC, abstractmethod
+
 class Product:
     def __init__(self, product_id, name, price, stock):
         self._product_id = product_id
@@ -27,6 +29,11 @@ class Product:
     def display_information(self) -> None:
         """Displays formatted information for the product."""
         print(f"ID: {self._product_id} | Name: {self._name} | Price: ${self._price:.2f} | Stock: {self._stock}")
+
+    @abstractmethod
+    def get_fulfilment_info(self) -> str:
+        """Abstract method forcing subclasses to define fulfilment behavior."""
+        pass
     
     def to_dict(self):
         """Convert Product object back to a dictionary for JSON storage."""
