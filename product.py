@@ -75,3 +75,26 @@ class PhysicalProduct(Product, CanBeShipped):
         base["type"] = "physical"
         base["weight"] = self._weight
         return base
+
+class DigitalProduct(Product):
+    """A digital product delivered via download size."""
+    def __init__(self, product_id, name, price, stock, download_size):
+        super().__init__(product_id, name, price, stock)
+        self._download_size = float(download_size)
+
+    @property
+    def download_size(self):
+        return self._download_size
+
+    def get_fulfilment_info(self) -> str:
+        return "Delivered digitally via download link."
+
+    def display_information(self) -> None:
+        super().display_information()
+        print(f" | Download Size: {self._download_size}MB | Fulfilment: {self.get_fulfilment_info()}")
+
+    def to_dict(self) -> dict:
+        base = super().to_dict()
+        base["type"] = "digital"
+        base["download_size"] = self._download_size
+        return base
